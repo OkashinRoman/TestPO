@@ -4,6 +4,8 @@
 class GameField {
     static int[][] field;
     static int roads;
+    static int roadLength;
+    static Frog frog;
 
 
     static void finish (boolean didYouWin){
@@ -35,8 +37,8 @@ class GameField {
         GameField.printField();
     }
 
-    public static int getField() {
-        return field.length;
+    public static Point getFrogPoint() {
+        return frog.getCurrent();
     }
 
     private static void start() {
