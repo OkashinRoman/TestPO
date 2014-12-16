@@ -10,7 +10,7 @@ public class CarsMovements {
 
     ArrayList<LinkedList<Cars>> cars;
     int [] speed;
-    CarsMovements(int n){
+    CarsMovements(){
         cars = new ArrayList<LinkedList<Cars>>(); //создание массива списков
         speed = new int[GameField.roads];
 
@@ -20,7 +20,7 @@ public class CarsMovements {
             speed[i] = random.nextInt(2)+1;
         }
         //создание списков в массиве и их первый элемент
-        for (int i = 0; i <n; i++) {
+        for (int i = 0; i <GameField.roads; i++) {
             cars.add(new LinkedList<Cars>());
             //добавление самой первой машины
             int len = random.nextInt(4);
