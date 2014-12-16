@@ -2,7 +2,11 @@
  * Created by okashinR on 06/12/14.
  */
 public class Frog {
-    Point current;
+    private Point current;
+
+    public Point getCurrent() {
+        return current;
+    }
 
     Frog(Point x) {
         current = x;

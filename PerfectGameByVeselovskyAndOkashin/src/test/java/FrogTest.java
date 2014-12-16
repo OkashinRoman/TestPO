@@ -3,7 +3,7 @@ import org.junit.Test;
 /**
  * Created by okashinR on 16/12/14.
  */
-public class FrogTest {
+class FrogTest {
     @Test
     public void testGoForward() throws Exception {
       //  org.junit.Assert.assertEquals();
