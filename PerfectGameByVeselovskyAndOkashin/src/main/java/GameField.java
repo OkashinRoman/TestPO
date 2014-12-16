@@ -3,6 +3,8 @@
  */
 class GameField {
     static int[][] field;
+    static int roads;
+
 
     static void finish (boolean didYouWin){
         if(didYouWin){
@@ -14,14 +16,14 @@ class GameField {
         //TODO: Stop Threads
     }
 
-   public static void printField(){
+    public static void printField(){
         for (int i = 0; i<8; i++)
         {
             for (int j = 0; j<20; j++)
             {
-              System.out.print(GameField.field[i][j]);
+                System.out.print(GameField.field[i][j]);
             }
-             System.out.println();
+            System.out.println();
 
         }
 
@@ -33,8 +35,13 @@ class GameField {
         GameField.printField();
     }
 
+    public static int getField() {
+        return field.length;
+    }
+
     private static void start() {
         field  = new int[8][20];
+        roads = 18;
         for (int i = 0; i<8; i++)
         {
             for (int j = 0; j<20; j++)
@@ -44,3 +51,4 @@ class GameField {
         }
     }
 }
+

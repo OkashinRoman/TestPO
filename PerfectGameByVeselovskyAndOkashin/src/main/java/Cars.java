@@ -4,10 +4,12 @@
 public class Cars {
     Point Begin;
     int Length;
+    int distanceToNext;
     int Speed;
-    Cars(Point P, int L, int S ){
+    Cars(Point P, int L, int S , int dist){
         Begin = P;
         Length = L;
+        distanceToNext = dist;
         Speed = S;
         }
     public void go(){
