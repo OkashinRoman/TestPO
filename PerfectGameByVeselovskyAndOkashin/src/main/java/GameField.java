@@ -2,14 +2,14 @@
  * Created by okashinR on 06/12/14.
  */
 class GameField {
-    static int[][] field;
+    static final int[][] field = new int[10][20];
     static int roads;
     static int roadLength;
     static Frog frog;
     static boolean playContinue;
 
 
-    static void finish (boolean didYouWin){
+    public synchronized static void finish(boolean didYouWin){
         if(didYouWin){
             System.out.println("YOU WON!!!!111");
         }
@@ -18,11 +18,17 @@ class GameField {
         }
         playContinue = false;
     }
-    public static void printField(){
-        for (int i = 0; i<8; i++)
+    public synchronized static void printField(){
+        for (int i = 0; i<10; i++)
         {
             for (int j = 0; j<20; j++) {
-                System.out.print(GameField.field[i][j]);
+
+                if(i==0 || i == 9){
+                    System.out.print(" ");
+                }
+                else {
+                    System.out.print(GameField.field[i][j]);
+                }
             }
             System.out.println();
         }
@@ -41,18 +47,18 @@ class GameField {
     }
 
     private static void start() {
-        field  = new int[8][20];
+      //  field  = new int[8][20];
         roads = 8;
         roadLength = 20;
         playContinue = true;
-        for (int i = 0; i<8; i++)
+        for (int i = 0; i<10; i++)
         {
             for (int j = 0; j<20; j++)
             {
                 field[i][j] = 0;
             }
         }
-        frog = new Frog(new Point(2,13));
+        frog = new Frog(new Point(9,9));
         FrogActions fa = new FrogActions();
         CarsController cont = new CarsController();
         fa.setDaemon(true);
@@ -73,7 +79,20 @@ class GameField {
             //TODO gui or some frog instructions
             //Some frog actions
             while(GameField.playContinue){
-                //MOVE!!
+                frog.goLeft();
+                GameField.printField();
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                frog.goForward();
+                GameField.printField();
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

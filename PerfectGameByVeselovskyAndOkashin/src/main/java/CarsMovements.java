@@ -25,7 +25,7 @@ public class CarsMovements {
             //добавление самой первой машины
             int len = random.nextInt(4);
             int dist = random.nextInt(4)+1;
-            cars.get(i).add(new Cars(new Point(i,this.mainY -len-dist),len, speed[i],0));
+            cars.get(i).add(new Cars(new Point(i+1,this.mainY -len-dist),len, speed[i],0));
         }
 
     }
@@ -49,7 +49,7 @@ public class CarsMovements {
                 car = list.getFirst();
                 length = random.nextInt(4)+1;
                 distance = random.nextInt(4)+1;
-                list.addFirst(new Cars(new Point(i,car.Begin.y-length-distance),length, speed[i],distance));
+                list.addFirst(new Cars(new Point(i+1,car.Begin.y-length-distance),length, speed[i],distance));
             }
 
             //добавлять по одной машине (с проверкой заполненности полосы) за итерацию цикла в бесконечном потоке движения машин
@@ -71,10 +71,11 @@ public class CarsMovements {
                     for (int k = 0; k < car.Length; k++) {
 
                         if (car.Begin.y + k >= 0 && car.Begin.y + k < GameField.roadLength)
-                            GameField.field[i][car.Begin.y + k] = 0;
+                            GameField.field[i+1][car.Begin.y + k] = 0;
                     }
                 }
                 car.go();
+
                 //удаляем машину из списка, если она вышла из поля видимости
                 if(car.Begin.y>=GameField.roadLength){
                     list.removeLast();
@@ -91,12 +92,12 @@ public class CarsMovements {
                         break;
                     }
                     //если на этом месте была лягушка, заканчиваем игру
-                    if(y == GameField.getFrogPoint().y && i == GameField.getFrogPoint().x){
+                    if(i+1 == GameField.getFrogPoint().x && (GameField.getFrogPoint().y<y||y == GameField.getFrogPoint().y)){
                         GameField.finish(false);
                     }
                     //если все ОК, занимаем позицию
                     synchronized (GameField.field) {
-                        GameField.field[i][y] = 1;
+                        GameField.field[i+1][y] = 1;
                     }
                 }//конец прохода позиций, занятых машиной
             }//конец прохода по списку

@@ -16,13 +16,15 @@ public class Frog {
     void goForward() {
 
         current.x -= 1;
-        if (GameField.field[current.x][current.y] == 1) {
-            GameField.finish(false);
-        }
         if(current.x == 0){
             GameField.finish(true);
         }
+        if (GameField.field[current.x][current.y] == 1) {
+            GameField.finish(false);
+        }
+
         synchronized (GameField.field) {
+            GameField.field[current.x+1][current.y] = 0;
             GameField.field[current.x][current.y] = 6;
         }
     }
@@ -38,6 +40,7 @@ public class Frog {
 
         }
         synchronized (GameField.field) {
+            GameField.field[current.x][current.y+1] = 0;
             GameField.field[current.x][current.y] = 6;
         }
     }
@@ -52,14 +55,13 @@ public class Frog {
             return;
         }
         synchronized (GameField.field) {
+            GameField.field[current.x][current.y-1] = 0;
             GameField.field[current.x][current.y] = 6;
         }
     }
 
     void goBack() {
-        if (current.x == 0){
-            return;
-        }
+        if (current.x == GameField.roads+1) return;
 
         current.x += 1;
         if (GameField.field[current.x][current.y] == 1) {
@@ -67,6 +69,7 @@ public class Frog {
             return;
         }
         synchronized (GameField.field) {
+            GameField.field[current.x-1][current.y] = 0;
             GameField.field[current.x][current.y] = 6;
         }
 
