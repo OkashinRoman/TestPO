@@ -18,24 +18,22 @@ class GameField {
         }
         playContinue = false;
     }
-    //TODO if not gui -> some console changing
     public static void printField(){
         for (int i = 0; i<8; i++)
         {
-            for (int j = 0; j<20; j++)
-            {
+            for (int j = 0; j<20; j++) {
                 System.out.print(GameField.field[i][j]);
             }
             System.out.println();
-
+        }
+        for(int i = 0; i<10; i++){
+            System.out.print("\n");
         }
 
     }
 
     public static void main(String[] args) {
         GameField.start();
-        frog = new Frog(new Point(2,3));
-        GameField.printField();
     }
 
     public static Point getFrogPoint() {
@@ -54,14 +52,16 @@ class GameField {
                 field[i][j] = 0;
             }
         }
+        frog = new Frog(new Point(2,13));
         FrogActions fa = new FrogActions();
         CarsController cont = new CarsController();
-        fa.start();
         fa.setDaemon(true);
-        cont.start();
+        fa.start();
         cont.setDaemon(true);
+        cont.start();
+
         while(playContinue){
-            //wait till game end
+           //wait till game end
         }
 
     }
@@ -72,6 +72,9 @@ class GameField {
         public void run(){
             //TODO gui or some frog instructions
             //Some frog actions
+            while(GameField.playContinue){
+                //MOVE!!
+            }
         }
     }
 
@@ -80,7 +83,8 @@ class GameField {
         public  void run(){
             CarsMovements controller = new CarsMovements();
 
-            while(true){
+            while(GameField.playContinue){
+                GameField.printField();
                 controller.carsGenerator();
                 controller.CarReplace();
                 try {
@@ -88,6 +92,7 @@ class GameField {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
             }
         }
     }

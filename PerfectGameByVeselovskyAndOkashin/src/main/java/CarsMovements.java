@@ -42,10 +42,14 @@ public class CarsMovements {
                 sum += car.distanceToNext + car.Length;
             }
             //если еще не вся полоса занята
+            int length;
+            int distance;
             if (sum < GameField.roadLength){
                 Random random = new Random();
                 car = list.getFirst();
-                list.addFirst(new Cars(new Point(i,car.Begin.y-car.Length-car.distanceToNext ),random.nextInt(4), speed[i],random.nextInt(4)+1));
+                length = random.nextInt(4)+1;
+                distance = random.nextInt(4)+1;
+                list.addFirst(new Cars(new Point(i,car.Begin.y-length-distance),length, speed[i],distance));
             }
 
             //добавлять по одной машине (с проверкой заполненности полосы) за итерацию цикла в бесконечном потоке движения машин
@@ -55,7 +59,7 @@ public class CarsMovements {
     }
 
     void CarReplace(){
-        for (int i = 0;i <= cars.size();i++ )
+        for (int i = 0;i < cars.size();i++ )
         {
             LinkedList<Cars> list = cars.get(i);
 
@@ -63,8 +67,12 @@ public class CarsMovements {
             for(int j = size-1; j>=0; j--){ //проход по списку машин
                 Cars car = list.get(j);
                 //очищаем старые позиции
-                for(int k =0; k<car.Length; k++){
-                    GameField.field[i][car.Begin.y+k]=0;
+                synchronized (GameField.field) {
+                    for (int k = 0; k < car.Length; k++) {
+
+                        if (car.Begin.y + k >= 0 && car.Begin.y + k < GameField.roadLength)
+                            GameField.field[i][car.Begin.y + k] = 0;
+                    }
                 }
                 car.go();
                 //удаляем машину из списка, если она вышла из поля видимости
@@ -79,8 +87,7 @@ public class CarsMovements {
                     if(y<0){//если эта точка не дошла до начала поля
                         continue;
                     }
-                    if(y > GameField.roadLength){//если эта часть машины находится за правым краем поля
-                        list.removeLast();
+                    if(y >= GameField.roadLength){//если эта часть машины находится за правым краем поля
                         break;
                     }
                     //если на этом месте была лягушка, заканчиваем игру
@@ -88,7 +95,9 @@ public class CarsMovements {
                         GameField.finish(false);
                     }
                     //если все ОК, занимаем позицию
-                    GameField.field[i][y]=0;
+                    synchronized (GameField.field) {
+                        GameField.field[i][y] = 1;
+                    }
                 }//конец прохода позиций, занятых машиной
             }//конец прохода по списку
         }
